@@ -41,7 +41,7 @@ final class LightingSwiftTests: XCTestCase {
         let reqeustExpectation = expectation(description: "Tests")
         DispatchQueue.global().async {
             do {
-                let result = try self.service.getBTCAddress().wait()
+                let result = try self.service.getBTCAddress(accessToken: "").wait()
                 debugPrint(result)
             } catch let error {
                 debugPrint(error)
