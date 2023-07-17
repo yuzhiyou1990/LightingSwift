@@ -1,23 +1,25 @@
 {
-  "pins" : [
-    {
-      "identity" : "bech32",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/0xDEADP00L/Bech32.git",
-      "state" : {
-        "revision" : "e5e1353b7840dc19d10e023fe1b784cd5469ca8a",
-        "version" : "1.0.0"
+  "object": {
+    "pins": [
+      {
+        "package": "Bech32",
+        "repositoryURL": "https://github.com/lishuailibertine/Bech32",
+        "state": {
+          "branch": null,
+          "revision": "82e758ddf9cbf546c807d3913933972b59b4947b",
+          "version": "1.0.5"
+        }
+      },
+      {
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "state": {
+          "branch": null,
+          "revision": "8a98e31a47854d3180882c8068cc4d9381bf382d",
+          "version": "6.22.1"
+        }
       }
-    },
-    {
-      "identity" : "promisekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mxcl/PromiseKit.git",
-      "state" : {
-        "revision" : "8a98e31a47854d3180882c8068cc4d9381bf382d",
-        "version" : "6.22.1"
-      }
-    }
-  ],
-  "version" : 2
+    ]
+  },
+  "version": 1
 }
