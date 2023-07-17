@@ -1,7 +1,7 @@
 import XCTest
-@testable import LIGHTNINGSwift
+@testable import LightingSwift
 
-final class LIGHTNINGSwiftTests: XCTestCase {
+final class LightingSwiftTests: XCTestCase {
     let login = "3e0ebca7a39192b4c9dd"
     let password = "cc531d82f7a75649c1c9"
     let service = LightningNetworkService(url: "https://lnd.maiziqianbao.net")
