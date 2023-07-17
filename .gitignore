@@ -1,4 +1,3 @@
-
-Sources/LightingSwift/LightningNetworkService.swift
-Sources/LightingSwift/Response/LightningResponse.swift
-Sources/LightingSwift/URL+Extension.swift
+xcuserdata/
+DerivedData/
+.swiftpm
