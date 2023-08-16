@@ -81,6 +81,8 @@ public struct DecodeInvoiceResponse: Codable {
     public let fallbackAddr: String
     public let cltvExpiry: String
     public let numMsat: String
+    
+    public var invoice: String?
 }
 
 public struct NetworkError: Codable {

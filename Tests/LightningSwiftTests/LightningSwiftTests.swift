@@ -2,8 +2,10 @@ import XCTest
 @testable import LightningSwift
 
 final class LightningSwiftTests: XCTestCase {
-    let login = "3e0ebca7a39192b4c9dd"
-    let password = "cc531d82f7a75649c1c9"
+    let login = "b07371ac5a9e4cc21ce3"
+    let password = "70e7f3f3b14f8bf8b9d8"
+    let refreshToken = "7cd32a5ddfe6b3ca2cf60f89f6ac6ef02d7c21e4"
+    let accessToken = "33a8a689a8a50bf7b09c334562e578d044f54db0"
     let service = LightningNetworkService(url: "https://lnd.maiziqianbao.net")
     func testExample() throws {
         // This is an example of a functional test case.
@@ -41,7 +43,7 @@ final class LightningSwiftTests: XCTestCase {
         let reqeustExpectation = expectation(description: "Tests")
         DispatchQueue.global().async {
             do {
-                let result = try self.service.getBTCAddress(accessToken: "").wait()
+                let result = try self.service.getBTCAddress(accessToken: self.accessToken).wait()
                 debugPrint(result)
             } catch let error {
                 debugPrint(error)
@@ -49,4 +51,60 @@ final class LightningSwiftTests: XCTestCase {
         }
         wait(for: [reqeustExpectation], timeout: 30)
     }
+    
+    func testAddInvoiceExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try self.service.addInvoice(amt: "2", accessToken: self.accessToken).wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
+    }
+    
+    func testGetInvoicesExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try self.service.getUserInvoices(accessToken: self.accessToken).wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
+    }
+    
+    func testDecodeInvoicesExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try self.service.decodeInvoice(invoice: "lnbc200n1pjdrfjkpp55m36n0rj0t9ekfwtaca2cmppv899l2atk5fgure67yjvafrgt4esdqyw3jscqzzsxqyz5vqsp56qet75r7k2gvauud0pcldug67f6k4mvzg5jmazjgwk2yeu7srhus9qyyssquk87rptz3rgqp6tfhgxlxawy68tw8pwdagazz4vwjj0r7urjxr8hsluhc7kfe7zx5xkltqg5ttavqg2h4hyh9dxg3l58rqdxvp95vxqp0zuay0", accessToken: self.accessToken).wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
+    }
+    
+    func testBolitDecodeInvoicesExample() throws {
+        let now = Date()
+        let timeInterval: TimeInterval = now.timeIntervalSince1970
+        let timeStamp = Int(timeInterval)
+        print(timeStamp)
+//        do {
+//            let re = try Bolt11.decode(invoice: "lnbc200n1pjdrfjkpp55m36n0rj0t9ekfwtaca2cmppv899l2atk5fgure67yjvafrgt4esdqyw3jscqzzsxqyz5vqsp56qet75r7k2gvauud0pcldug67f6k4mvzg5jmazjgwk2yeu7srhus9qyyssquk87rptz3rgqp6tfhgxlxawy68tw8pwdagazz4vwjj0r7urjxr8hsluhc7kfe7zx5xkltqg5ttavqg2h4hyh9dxg3l58rqdxvp95vxqp0zuay0")
+//
+//            debugPrint(re.description)
+//
+//        } catch let error {
+//            debugPrint(error.localizedDescription)
+//        }
+    }
+
+    
 }

@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "Bech32",
-        "repositoryURL": "https://github.com/lishuailibertine/Bech32",
+        "package": "BigInt",
+        "repositoryURL": "https://github.com/attaswift/BigInt.git",
         "state": {
           "branch": null,
-          "revision": "82e758ddf9cbf546c807d3913933972b59b4947b",
-          "version": "1.0.5"
+          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
+          "version": "5.3.0"
+        }
+      },
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "32f641cf24fc7abc1c591a2025e9f2f572648b0f",
+          "version": "1.7.2"
         }
       },
       {
