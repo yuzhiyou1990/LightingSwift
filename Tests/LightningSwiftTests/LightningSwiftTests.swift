@@ -95,7 +95,20 @@ final class LightningSwiftTests: XCTestCase {
         let reqeustExpectation = expectation(description: "Tests")
         DispatchQueue.global().async {
             do {
-                let result = try LightningDecodeInvoiceService.decodeInvoice(invoice: "twilightmorning29511@getalby.com").wait()
+                let result = try LightningDecodeInvoiceService.decodeLNURL(LNURL: "LNURL1DP68GURN8GHJ7EM9W3SKCCNE9E3K7MF0D3H82UNVWQHHGAMFD35KW6R5D4HHYMNFDENNYWF4XYCS59VCHV").wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
+    }
+    
+    func testLightningAddressExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try LightningDecodeInvoiceService.decodeLightningAddress(address: "twilightmorning29511@getalby.com").wait()
                 debugPrint(result)
             } catch let error {
                 debugPrint(error)

@@ -65,12 +65,12 @@ public struct Bolt11 {
         result[element.value.description] = element.key
     }
 
-    static func TAGPARSER(tagCode: Int, words: [UInt8]) -> Any? {
+    static func TAGPARSER(tagCode: Int, words: [UInt8]) throws -> Any? {
         switch tagCode {
         case 1, 16, 19, 23:
-            return wordsToBuffer(words: words, trim: true).toHexString()
+            return try wordsToBuffer(words: words, trim: true).toHexString()
         case 13:
-            return String(bytes: wordsToBuffer(words: words, trim: true), encoding: .utf8)
+            return String(bytes: try wordsToBuffer(words: words, trim: true), encoding: .utf8)
         case 6, 24:
             return wordsToIntBE(words: words)
         default:
@@ -97,7 +97,7 @@ public struct Bolt11 {
         let wordsNoSig = Array(words[0..<words.count - 104])
         words = Array(words[0..<words.count - 104])
 
-        var sigBuffer = wordsToBuffer(words: sigWords, trim: true)
+        var sigBuffer = try wordsToBuffer(words: sigWords, trim: true)
         let recoveryFlag = sigBuffer.removeLast()
         
         if ![0, 1, 2, 3].contains(recoveryFlag) || sigBuffer.count != 64 {
@@ -169,7 +169,7 @@ public struct Bolt11 {
 
             tagWords = Array(words[0..<tagLength])
 
-            let parserTagWords = TAGPARSER(tagCode: Int(tagCode), words: tagWords) ?? getUnknownParser(tagCode: Int(tagCode), words: tagWords)
+            let parserTagWords = try TAGPARSER(tagCode: Int(tagCode), words: tagWords) ?? getUnknownParser(tagCode: Int(tagCode), words: tagWords)
 
             if tagCode == 13 && tagName == "description" {
                 description = parserTagWords as! String
@@ -200,7 +200,7 @@ public struct Bolt11 {
         }
 
         // 判断签名
-        let convert = convert(data: wordsNoSig, inBits: 5, outBits: 8, pad: true)
+        let convert = try convert(data: wordsNoSig, inBits: 5, outBits: 8, pad: true)
         let prefixData = prefix.data(using: .utf8)!
         let toSign = prefixData + Data(convert)
         let payReqHash = toSign.sha256()
@@ -221,7 +221,7 @@ public struct Bolt11 {
         return DecodeInvoiceResponse(destination: "", paymentHash: payment_hash, numSatoshis: String(satoshis), timestamp: String(timestamp), expiry: "", description: description, descriptionHash: "", fallbackAddr: "", cltvExpiry: "", numMsat: "")
     }
     
-    static func convert(data: [UInt8], inBits: Int, outBits: Int, pad: Bool) -> [UInt8] {
+    static func convert(data: [UInt8], inBits: Int, outBits: Int, pad: Bool) throws -> [UInt8] {
         var value = BigUInt(0)
         var bits = 0
         let maxV = BigUInt((1 << outBits) - 1)
@@ -244,18 +244,20 @@ public struct Bolt11 {
             }
         } else {
             if bits >= inBits {
-                // You need to handle the error case appropriately in Swift
-                fatalError("Excess padding")
+                throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Excess padding"])
             }
             if value << (outBits - bits) & maxV > 0 {
-                // You need to handle the error case appropriately in Swift
-                fatalError("Non-zero padding")
+                throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Non-zero padding"])
             }
         }
 
         return result
     }
 
+    static func fromWords(words: [UInt8]) throws -> [UInt8] {
+        return try convert(data: words, inBits: 5, outBits: 8, pad: false)
+    }
+    
     static func wordsToIntBE(words: [UInt8]) -> Int64 {
         var total: Int64 = 0
         for (index, item) in words.reversed().enumerated() {
@@ -264,8 +266,8 @@ public struct Bolt11 {
         return total
     }
 
-    static func wordsToBuffer(words: [UInt8], trim: Bool) -> [UInt8] {
-        var fromWords = convert(data: words, inBits: 5, outBits: 8, pad: true)
+    static func wordsToBuffer(words: [UInt8], trim: Bool) throws -> [UInt8] {
+        var fromWords = try convert(data: words, inBits: 5, outBits: 8, pad: true)
         if trim && words.count * 5 % 8 != 0 {
             fromWords = Array(fromWords[0..<fromWords.count - 1])
         }
