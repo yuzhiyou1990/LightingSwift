@@ -121,7 +121,7 @@ extension LightningNetworkService {
         let headers = [
             "Authorization": "Bearer \(accessToken)"
         ]
-        return GET(method: "/decodeinvoice", headers: headers)
+        return GET(method: "/decodeinvoice?invoice=\(invoice)", headers: headers)
     }
     
     public static func getLightningLNUrlMetadata(urlString: String, path: String) -> Promise<LNUrlMetadataResponse> {
