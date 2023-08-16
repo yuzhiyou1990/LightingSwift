@@ -48,17 +48,11 @@ struct LightningDecodeInvoiceService {
     }
     
     static func decodeLightningAddress(address: String) -> Promise<LNUrlMetadataResponse> {
-        let (promise, seal) = Promise<LNUrlMetadataResponse>.pending()
         let host = address.components(separatedBy: "@")[1]
         let path = address.components(separatedBy: "@")[0]
         let baseUrl = "https://\(host)"
         let pathUrl = "/lnurlp/\(path)"
-        LightningNetworkService.getLightningLNURLMetadata(urlString: baseUrl, path: pathUrl).done { LNUrlMetadata in
-            seal.fulfill(LNUrlMetadata)
-        }.catch { error in
-            seal.reject(error)
-        }
-        return promise
+        return LightningNetworkService.getLightningLNURLMetadata(urlString: baseUrl, path: pathUrl)
     }
     
     public static func getCallBackInvoice(amount: String) -> Promise<LNUrlCallbackInvoiceResponse> {
