@@ -60,15 +60,22 @@ extension LightningNetworkService {
         return GET(method: "/balance", headers: headers)
     }
     
-    public func addInvoice(amt: String, memo: String = "", accessToken: String) -> Promise<String> {
+    public func getUserInvoices(accessToken: String) -> Promise<[InvoiceResponse]> {
+        let headers = [
+            "Authorization": "Bearer \(accessToken)"
+        ]
+        return GET(method: "/getuserinvoices", headers: headers)
+    }
+    
+    public func addInvoice(amt: String, memo: String = "", accessToken: String) -> Promise<InvoiceResponse> {
         let headers = [
             "Authorization": "Bearer \(accessToken)"
         ]
         let body = [
-            "amt": "\(amt) ",
+            "amt": amt,
             "memo": memo
         ] as [String : Any]
-        return POST(method: "/payinvoice", body: body)
+        return POST(method: "/addinvoice", body: body, headers: headers)
     }
     
     public func payInvoice(invoice: String, freeamount: UInt64 = 0, accessToken: String) -> Promise<String> {
@@ -79,7 +86,14 @@ extension LightningNetworkService {
             "invoice": invoice,
             "amount": freeamount
         ] as [String : Any]
-        return POST(method: "/payinvoice", body: body)
+        return POST(method: "/payinvoice", body: body, headers: headers)
+    }
+    
+    public func decodeInvoice(invoice: String, accessToken: String) -> Promise<DecodeInvoiceResponse> {
+        let headers = [
+            "Authorization": "Bearer \(accessToken)"
+        ]
+        return GET(method: "/decodeinvoice?invoice=\(invoice)", headers: headers)
     }
 }
 
