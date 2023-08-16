@@ -14,7 +14,7 @@ struct LightningDecodeInvoiceService {
         let (promise, seal) = Promise<DecodeInvoiceResponse>.pending()
         LightningNetworkService(url: url).decodeInvoice(invoice: invoice, accessToken: accessToken).done { decodeInvoiceResponse in
             seal.fulfill(decodeInvoiceResponse)
-        }.catch { error in
+        }.catch { _ in
             do {
                 var decodeInvoiceResponse = try Bolt11.decode(invoice: invoice)
                 decodeInvoiceResponse.invoice = invoice
