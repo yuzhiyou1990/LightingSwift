@@ -124,7 +124,7 @@ extension LightningNetworkService {
         return GET(method: "/decodeinvoice", headers: headers)
     }
     
-    public static func getLightningLNUrlMetadata(urlString: String, path: String) -> Promise<DecodeInvoiceResponse> {
+    public static func getLightningLNUrlMetadata(urlString: String, path: String) -> Promise<LNUrlMetadataResponse> {
         return LightningNetworkService(url: urlString).GET(method: path)
     }
 }

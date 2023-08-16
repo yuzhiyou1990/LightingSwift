@@ -91,20 +91,16 @@ final class LightningSwiftTests: XCTestCase {
         wait(for: [reqeustExpectation], timeout: 30)
     }
     
-    func testBolitDecodeInvoicesExample() throws {
-        let now = Date()
-        let timeInterval: TimeInterval = now.timeIntervalSince1970
-        let timeStamp = Int(timeInterval)
-        print(timeStamp)
-//        do {
-//            let re = try Bolt11.decode(invoice: "lnbc200n1pjdrfjkpp55m36n0rj0t9ekfwtaca2cmppv899l2atk5fgure67yjvafrgt4esdqyw3jscqzzsxqyz5vqsp56qet75r7k2gvauud0pcldug67f6k4mvzg5jmazjgwk2yeu7srhus9qyyssquk87rptz3rgqp6tfhgxlxawy68tw8pwdagazz4vwjj0r7urjxr8hsluhc7kfe7zx5xkltqg5ttavqg2h4hyh9dxg3l58rqdxvp95vxqp0zuay0")
-//
-//            debugPrint(re.description)
-//
-//        } catch let error {
-//            debugPrint(error.localizedDescription)
-//        }
+    func testLnurlExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try LightningDecodeInvoiceService.decodeInvoice(invoice: "twilightmorning29511@getalby.com").wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
     }
-
-    
 }

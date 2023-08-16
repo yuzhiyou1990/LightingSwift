@@ -85,6 +85,18 @@ public struct DecodeInvoiceResponse: Codable {
     public var invoice: String?
 }
 
+public struct LNUrlMetadataResponse: Codable {
+    public let status: String
+    public let tag: String
+    public let commentAllowed: Int
+    public let callback: String
+    public let metadata: String
+    public let minSendable: String
+    public let maxSendable: String
+    public let nostrPubkey: String
+    public let allowsNostr: Bool
+}
+
 public struct NetworkError: Codable {
     public let error: Bool
     public let code: Int
