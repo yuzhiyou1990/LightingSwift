@@ -1,8 +1,8 @@
 //
 //  Bolt11.swift
-//  MathWallet5
 //
-//  Created by 薛跃杰 on 2023/8/4.
+//
+//  Created by   xgblin on 2023/8/4.
 //
 
 import Foundation

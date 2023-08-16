@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  CreateAccountResponse.swift
 //
 //
-//  Created by 薛跃杰 on 2023/7/13.
+//  Created by   xgblin on 2023/7/13.
 //
 
 import Foundation

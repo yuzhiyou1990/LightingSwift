@@ -1,8 +1,8 @@
 //
 //  LightningDecodeInvoiceService.swift
-//  MathWallet5
+//    
 //
-//  Created by 薛跃杰 on 2023/8/15.
+//  Created by   xgblin on 2023/8/15.
 //
 
 import Foundation
