@@ -2,7 +2,7 @@
 //  LightningError.swift
 //    
 //
-//  Created by   xgblin on 2023/8/14.
+//  Created by  xgblin on 2023/8/14.
 //
 
 import Foundation
