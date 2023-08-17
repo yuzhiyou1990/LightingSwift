@@ -2,7 +2,7 @@
 //  CreateAccountResponse.swift
 //
 //
-//  Created by   xgblin on 2023/7/13.
+//  Created by  xgblin on 2023/7/13.
 //
 
 import Foundation
