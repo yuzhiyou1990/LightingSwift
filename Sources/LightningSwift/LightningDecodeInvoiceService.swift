@@ -9,8 +9,8 @@ import Foundation
 import PromiseKit
 import BigInt
 
-struct LightningDecodeInvoiceService {
-    static func decodeInvoice(invoice: String, url: String, accessToken: String) -> Promise<DecodeInvoiceResponse> {
+public struct LightningDecodeInvoiceService {
+    public static func decodeInvoice(invoice: String, url: String, accessToken: String) -> Promise<DecodeInvoiceResponse> {
         let (promise, seal) = Promise<DecodeInvoiceResponse>.pending()
         LightningNetworkService(url: url).decodeInvoice(invoice: invoice, accessToken: accessToken).done { decodeInvoiceResponse in
             seal.fulfill(decodeInvoiceResponse)
@@ -26,7 +26,7 @@ struct LightningDecodeInvoiceService {
         return promise
     }
     
-    static func decodeLNURL(LNURL: String) -> Promise<LNUrlMetadataResponse> {
+    public static func decodeLNURL(LNURL: String) -> Promise<LNUrlMetadataResponse> {
         let (promise, seal) = Promise<LNUrlMetadataResponse>.pending()
         do {
             let (_, checksum) = try Bech32().decode(LNURL, length: Int.max)
@@ -47,7 +47,7 @@ struct LightningDecodeInvoiceService {
         return promise
     }
     
-    static func decodeLightningAddress(address: String) -> Promise<LNUrlMetadataResponse> {
+    public static func decodeLightningAddress(address: String) -> Promise<LNUrlMetadataResponse> {
         let (promise, seal) = Promise<LNUrlMetadataResponse>.pending()
         let host = address.components(separatedBy: "@")[1]
         let path = address.components(separatedBy: "@")[0]
