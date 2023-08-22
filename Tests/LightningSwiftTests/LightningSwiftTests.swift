@@ -2,10 +2,10 @@ import XCTest
 @testable import LightningSwift
 
 final class LightningSwiftTests: XCTestCase {
-    let login = "b07371ac5a9e4cc21ce3"
-    let password = "70e7f3f3b14f8bf8b9d8"
-    let refreshToken = "7cd32a5ddfe6b3ca2cf60f89f6ac6ef02d7c21e4"
-    let accessToken = "33a8a689a8a50bf7b09c334562e578d044f54db0"
+    let login = ""
+    let password = ""
+    let refreshToken = ""
+    let accessToken = ""
     let service = LightningNetworkService(url: "https://lnd.maiziqianbao.net")
     func testExample() throws {
         // This is an example of a functional test case.
