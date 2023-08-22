@@ -108,6 +108,14 @@ public struct PayInvoiceResponse: Codable {
     public let payReq: String
 }
 
+public struct GetFeeResponse: Codable {
+    public let routes: [GetFeeRoute]
+    
+    public struct GetFeeRoute: Codable {
+        public let totalFees: String
+    }
+}
+
 public struct NetworkError: Codable {
     public let error: Bool
     public let code: Int

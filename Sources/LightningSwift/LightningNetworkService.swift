@@ -62,6 +62,10 @@ extension LightningNetworkService {
         return GETWithAccessToken(method: "/balance", accessToken: accessToken)
     }
     
+    public func getFee(from: String, to: String, amount: String) -> Promise<GetFeeResponse> {
+        return GET(method: "/queryroutes/\(from)/\(to)/\(amount)")
+    }
+    
     public func getTxs(accessToken: String, offset: Int, limit: Int) -> Promise<[TransactionResponse]> {
         return GETWithAccessToken(method: "/gettxs?limit=\(limit)&offset=\(offset)", accessToken: accessToken)
     }
