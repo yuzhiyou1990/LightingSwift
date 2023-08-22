@@ -80,18 +80,13 @@ public struct Bolt11 {
 
     static let unknownTagName = "unknownTag"
 
-    static func decode(invoice: String /*network: MainNetParams*/) throws -> DecodeInvoiceResponse {
+    public static func decode(invoice: String /*network: MainNetParams*/) throws -> DecodeInvoiceResponse {
 
         guard invoice.lowercased().starts(with: "ln") else {
             throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Not a proper lightning payment request"])
         }
 
         let (prefix, checksum) = try Bech32().decode(invoice, length: Int.max)
-//        .decode(invoice, hasChecksum: false)
-//        var words = Bech32.decode(invoice)
-//        decode(invoice, hasChecksum: false).data
-//        lnbc40n 将ln 和 bc 和 40n 分开
-//        let prefix = decoded.hrp
         var words = checksum.bytes
         let sigWords = Array(words.suffix(104))
         let wordsNoSig = Array(words[0..<words.count - 104])
@@ -317,7 +312,7 @@ public struct Bolt11 {
         return millisatoshisBN
     }
 
-    static func getUnknownParser(tagCode: Int, words: [UInt8]) -> String {
+    public static func getUnknownParser(tagCode: Int, words: [UInt8]) -> String {
         return Bech32().encode("unknow", values: Data(words))
     }
 }
