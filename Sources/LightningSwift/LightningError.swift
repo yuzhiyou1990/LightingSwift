@@ -1,8 +1,8 @@
 //
 //  LightningError.swift
-//    
+
 //
-//  Created by  xgblin on 2023/8/14.
+//  Created by xgblin on 2023/8/14.
 //
 
 import Foundation
@@ -21,7 +21,7 @@ public enum LightningError: LocalizedError {
     }
 }
 
-public enum LightningServiceError: LocalizedError {
+public enum LightningServiceError: LocalizedError, Equatable {
     case authError
     case providerError(String)
     case resoultError(Int, String)

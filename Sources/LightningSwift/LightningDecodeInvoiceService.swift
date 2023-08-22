@@ -1,8 +1,8 @@
 //
 //  LightningDecodeInvoiceService.swift
-//    
+
 //
-//  Created by  xgblin on 2023/8/15.
+//  Created by xgblin on 2023/8/15.
 //
 
 import Foundation
@@ -14,7 +14,7 @@ struct LightningDecodeInvoiceService {
         let (promise, seal) = Promise<DecodeInvoiceResponse>.pending()
         LightningNetworkService(url: url).decodeInvoice(invoice: invoice, accessToken: accessToken).done { decodeInvoiceResponse in
             seal.fulfill(decodeInvoiceResponse)
-        }.catch { _ in
+        }.catch { error in
             do {
                 var decodeInvoiceResponse = try Bolt11.decode(invoice: invoice)
                 decodeInvoiceResponse.invoice = invoice
@@ -48,19 +48,23 @@ struct LightningDecodeInvoiceService {
     }
     
     static func decodeLightningAddress(address: String) -> Promise<LNUrlMetadataResponse> {
+        let (promise, seal) = Promise<LNUrlMetadataResponse>.pending()
         let host = address.components(separatedBy: "@")[1]
         let path = address.components(separatedBy: "@")[0]
         let baseUrl = "https://\(host)"
         let pathUrl = "/lnurlp/\(path)"
-        return LightningNetworkService.getLightningLNURLMetadata(urlString: baseUrl, path: pathUrl)
+        LightningNetworkService.getLightningLNURLMetadata(urlString: baseUrl, path: pathUrl).done { LNUrlMetadata in
+            seal.fulfill(LNUrlMetadata)
+        }.catch { error in
+            seal.reject(error)
+        }
+        return promise
     }
     
-    public static func getCallBackInvoice(amount: String) -> Promise<LNUrlCallbackInvoiceResponse> {
-        let url = URL(string: "callback")
+    public static func getCallBackInvoice(url: String, amount: String) -> Promise<LNUrlCallbackInvoiceResponse> {
+        let url = URL(string: url)
         let baseUrl = "\(url?.scheme ?? "")://\(url?.host ?? "")"
         let path = url?.path ?? ""
-        let amountBigInt = BigInt(amount)
-        let lnAmount = amountBigInt! * BigInt(1000)
-        return LightningNetworkService.getLightningLNUrlCallbackInvoice(baseUrl: baseUrl, path: path, amount: lnAmount.description)
+        return LightningNetworkService.getLightningLNUrlCallbackInvoice(baseUrl: baseUrl, path: path, amount: amount)
     }
 }

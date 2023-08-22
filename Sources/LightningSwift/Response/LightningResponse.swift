@@ -1,8 +1,8 @@
 //
-//  CreateAccountResponse.swift
+//  File.swift
+//  
 //
-//
-//  Created by  xgblin on 2023/7/13.
+//  Created by xgblin on 2023/7/13.
 //
 
 import Foundation
@@ -91,8 +91,8 @@ public struct LNUrlMetadataResponse: Codable {
     public let commentAllowed: Int
     public let callback: String
     public let metadata: String
-    public let minSendable: Int64
-    public let maxSendable: Int64
+    public let minSendable: UInt64
+    public let maxSendable: UInt64
     public let nostrPubkey: String
     public let allowsNostr: Bool
 }
@@ -101,6 +101,11 @@ public struct LNUrlCallbackInvoiceResponse: Codable {
     public let status: String
     public let verify: String
     public let pr: String
+}
+
+public struct PayInvoiceResponse: Codable {
+    public let paymentError: String
+    public let payReq: String
 }
 
 public struct NetworkError: Codable {

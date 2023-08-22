@@ -1,8 +1,8 @@
 //
 //  LightningNetworkService.swift
-//    
+
 //
-//  Created by  xgblin on 2023/7/10.
+//  Created by xgblin on 2023/7/10.
 //
 
 import Foundation
@@ -22,15 +22,12 @@ public struct LightningNetworkService {
     }
     
     public func getInfo(accseeToken: String) -> Promise<InfoResponse> {
-        let headers = [
-            "Authorization": "Bearer \(accseeToken)"
-        ]
-        return GET(method: "/getinfo", headers: headers)
+        return GETWithAccessToken(method: "/getinfo", accessToken: accseeToken)
     }
     
     public func createAccount(isTest: Bool) -> Promise<CreateAccountResponse> {
         let body = [
-            "partnerid": "mathwallet",
+            "partnerid": "",
             "accounttype": isTest ? "test" : "common"
         ]
         return POST(method: "/create", body: body)
@@ -54,10 +51,7 @@ public struct LightningNetworkService {
 
 extension LightningNetworkService {
     public func getBTCAddress(accessToken: String) -> Promise<[BTCAddress]> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/getbtc", headers: headers)
+        return GETWithAccessToken(method: "/getbtc", accessToken: accessToken)
     }
     
     public func newBTCAddress() -> Promise<String> {
@@ -65,63 +59,42 @@ extension LightningNetworkService {
     }
     
     public func fetchBalance(accessToken: String) -> Promise<BalanceResponse> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/balance", headers: headers)
+        return GETWithAccessToken(method: "/balance", accessToken: accessToken)
     }
     
     public func getTxs(accessToken: String, offset: Int, limit: Int) -> Promise<[TransactionResponse]> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/gettxs?limit=\(limit)&offset=\(offset)", headers: headers)
+        return GETWithAccessToken(method: "/gettxs?limit=\(limit)&offset=\(offset)", accessToken: accessToken)
     }
     
     public func getTx(accessToken: String, txId: Int) -> Promise<TransactionResponse> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/gettx?txid=\(txId)", headers: headers)
+        return GETWithAccessToken(method: "/gettx?txid=\(txId)", accessToken: accessToken)
     }
     
     public func getUserInvoices(accessToken: String) -> Promise<[InvoiceResponse]> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/getuserinvoices", headers: headers)
+        return GETWithAccessToken(method: "/getuserinvoices", accessToken: accessToken)
     }
 }
 
 // invoice
 extension LightningNetworkService {
     public func addInvoice(amt: String, memo: String = "", accessToken: String) -> Promise<InvoiceResponse> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
         let body = [
             "amt": amt,
             "memo": memo
         ]
-        return POST(method: "/addinvoice", body: body, headers: headers)
+        return POSTWithAccessToken(method: "/addinvoice", accessToken: accessToken, body: body)
     }
     
-    public func payInvoice(invoice: String, freeamount: UInt64 = 0, accessToken: String) -> Promise<String> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
+    public func payInvoice(invoice: String, freeamount: UInt64 = 0, accessToken: String) -> Promise<PayInvoiceResponse> {
         let body = [
             "invoice": invoice,
             "amount": freeamount
         ] as [String : Any]
-        return POST(method: "/payinvoice", body: body, headers: headers)
+        return POSTWithAccessToken(method: "/payinvoice", accessToken: accessToken, body: body)
     }
     
     public func decodeInvoice(invoice: String, accessToken: String) -> Promise<DecodeInvoiceResponse> {
-        let headers = [
-            "Authorization": "Bearer \(accessToken)"
-        ]
-        return GET(method: "/decodeinvoice?invoice=\(invoice)", headers: headers)
+        return GETWithAccessToken(method: "/decodeinvoice?invoice=\(invoice)", accessToken: accessToken)
     }
     
     public static func getLightningLNURLMetadata(urlString: String, path: String) -> Promise<LNUrlMetadataResponse> {
@@ -133,6 +106,33 @@ extension LightningNetworkService {
     }
 }
 extension LightningNetworkService {
+    
+    func GETWithAccessToken<T: Decodable>(method: String, accessToken: String, parameters: [String: Any]? = nil) -> Promise<T> {
+        return Promise<T> { seal in
+            if accessToken.count == 0 {
+                seal.reject(LightningError.other("AccessToken error"))
+            }
+            GET(method: method, parameters: parameters, headers: ["Authorization": "Bearer \(accessToken)"]).done { response in
+                seal.fulfill(response)
+            }.catch { error in
+                seal.reject(error)
+            }
+        }
+    }
+    
+    func POSTWithAccessToken<T: Decodable>(method: String, accessToken: String, parameters: [String: Any]? = nil, body: [String: Any]? = nil) -> Promise<T> {
+        return Promise<T> { seal in
+            if accessToken.count == 0 {
+                seal.reject(LightningError.other("AccessToken error"))
+            }
+            POST(method: method, parameters: parameters, body: body, headers: ["Authorization": "Bearer \(accessToken)"]) .done { response in
+                seal.fulfill(response)
+            }.catch { error in
+                seal.reject(error)
+            }
+        }
+    }
+    
     func GET<T: Decodable>(method: String, parameters: [String: Any]? = nil, headers: [String: String] = [:]) -> Promise<T> {
         let rp = Promise<Data>.pending()
         var task: URLSessionTask? = nil
