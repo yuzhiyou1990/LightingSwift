@@ -45,18 +45,28 @@ public struct BalanceResponse: Codable {
 }
 
 public struct TransactionResponse: Codable {
-    public let amount: Int64
-    public let fee: Int64
-    public let memo: String
+    public let category: String?
+    public let amount: Float?
+    public let confirmations: Int?
+    public let address: String?
+    public let time: Int?
+    public let timestamp: Int?
+    public let value: Int64?
     public let type: String
-    public let time: Int
+    public let memo: String?
+    public let fee: Int64?
     
-    public init(amount: Int64, fee: Int64, memo: String, type: String, time: Int) {
+    public init(category: String?, amount: Float?, confirmations: Int?, address: String?, time: Int?, timestamp: Int?, value: Int64?, type: String, memo: String?, fee: Int64?) {
+        self.category = category
         self.amount = amount
-        self.fee = fee
-        self.memo = memo
-        self.type = type
+        self.confirmations = confirmations
+        self.address = address
         self.time = time
+        self.timestamp = timestamp
+        self.value = value
+        self.type = type
+        self.memo = memo
+        self.fee = fee
     }
 }
 
