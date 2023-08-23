@@ -49,7 +49,15 @@ public struct TransactionResponse: Codable {
     public let fee: Int64
     public let memo: String
     public let type: String
-    public let time: Int64
+    public let time: Int
+    
+    public init(amount: Int64, fee: Int64, memo: String, type: String, time: Int) {
+        self.amount = amount
+        self.fee = fee
+        self.memo = memo
+        self.type = type
+        self.time = time
+    }
 }
 
 public struct InvoiceResponse: Codable {
@@ -59,7 +67,7 @@ public struct InvoiceResponse: Codable {
     public let payReq: String
     public let description: String?
     public let paymentHash: String?
-    public let amt: UInt64?
+    public let amt: Int64?
     public let expireTime: Int?
     public let timestamp: Int?
     public let type: String?
