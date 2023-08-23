@@ -56,7 +56,7 @@ public struct TransactionResponse: Codable {
     public let memo: String?
     public let fee: Int64?
     
-    public init(category: String?, amount: Float?, confirmations: Int?, address: String?, time: Int?, timestamp: Int?, value: Int64?, type: String, memo: String?, fee: Int64?) {
+    public init(category: String? = nil, amount: Float? = nil, confirmations: Int? = nil, address: String? = nil, time: Int? = nil, timestamp: Int? = nil, value: Int64? = nil, type: String, memo: String? = nil, fee: Int64? = nil) {
         self.category = category
         self.amount = amount
         self.confirmations = confirmations
