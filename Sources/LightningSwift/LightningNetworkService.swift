@@ -13,11 +13,7 @@ public struct LightningNetworkService {
     private var session: URLSession
     
     public init(url: String) {
-        var urlStr = url
-        if urlStr.last == "/" {
-            urlStr.remove(at: urlStr.index(urlStr.startIndex, offsetBy: urlStr.count - 1))
-        }
-        self.url = urlStr
+        self.url = url.urlLegalize()
         self.session = URLSession(configuration: .default)
     }
     
