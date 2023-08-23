@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct CreateAccountResponse: Codable {
     public let login: String
@@ -45,28 +46,33 @@ public struct BalanceResponse: Codable {
 }
 
 public struct TransactionResponse: Codable {
-    public let category: String?
-    public let amount: Float?
-    public let confirmations: Int?
-    public let address: String?
-    public let time: Int?
-    public let timestamp: Int?
-    public let value: Int64?
-    public let type: String
-    public let memo: String?
-    public let fee: Int64?
-    
-    public init(category: String? = nil, amount: Float? = nil, confirmations: Int? = nil, address: String? = nil, time: Int? = nil, timestamp: Int? = nil, value: Int64? = nil, type: String, memo: String? = nil, fee: Int64? = nil) {
-        self.category = category
-        self.amount = amount
-        self.confirmations = confirmations
-        self.address = address
-        self.time = time
-        self.timestamp = timestamp
-        self.value = value
-        self.type = type
-        self.memo = memo
-        self.fee = fee
+    public var category: String?
+    public var amount: Float?
+    public var confirmations: Int?
+    public var address: String?
+    public var time: Int?
+    public var timestamp: AnyCodable?
+    public var value: Int64?
+    public var type: String
+    public var memo: String?
+    public var fee: Int64?
+    public var timeInt64: Int64 {
+        if let _time = time {
+            return Int64(_time)
+        } else {
+            if let _timestamp = timestamp {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                if let timeString = try? decoder.decode(String.self, from: JSONEncoder().encode(timestamp)) {
+                    return Int64(timeString) ?? 0
+                } else {
+                    if let timeInt64 = try? decoder.decode(Int64.self, from: JSONEncoder().encode(timestamp)) {
+                        return timeInt64
+                    }
+                }
+            }
+        }
+        return 0
     }
 }
 

@@ -17,14 +17,14 @@ let package = Package(
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.4.1"),
         .package(url: "https://github.com/attaswift/BigInt.git", from: "5.0.0"),
         .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.8.4")),
-//        .package(name: "Bech32", url: "https://github.com/lishuailibertine/Bech32", from: "1.0.5")
+        .package(url: "https://github.com/Flight-School/AnyCodable.git", .exact("0.6.1"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "LightningSwift",
-            dependencies: ["CryptoSwift", "BigInt", "PromiseKit"]),
+            dependencies: ["CryptoSwift", "BigInt", "PromiseKit", "AnyCodable"]),
         .testTarget(
             name: "LightningSwiftTests",
             dependencies: ["LightningSwift"]),
