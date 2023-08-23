@@ -74,6 +74,19 @@ public struct TransactionResponse: Codable {
         }
         return 0
     }
+    
+    public init(category: String? = nil, amount: Float? = nil, confirmations: Int? = nil, address: String? = nil, time: Int? = nil, timestamp: AnyCodable? = nil, value: Int64? = nil, type: String, memo: String? = nil, fee: Int64? = nil) {
+        self.category = category
+        self.amount = amount
+        self.confirmations = confirmations
+        self.address = address
+        self.time = time
+        self.timestamp = timestamp
+        self.value = value
+        self.type = type
+        self.memo = memo
+        self.fee = fee
+    }
 }
 
 public struct InvoiceResponse: Codable {
