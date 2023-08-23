@@ -65,11 +65,24 @@ final class LightningSwiftTests: XCTestCase {
         wait(for: [reqeustExpectation], timeout: 30)
     }
     
+    func testGetTxExample() throws {
+        let reqeustExpectation = expectation(description: "Tests")
+        DispatchQueue.global().async {
+            do {
+                let result = try self.service.getTxs(accessToken: "").wait()
+                debugPrint(result)
+            } catch let error {
+                debugPrint(error)
+            }
+        }
+        wait(for: [reqeustExpectation], timeout: 30)
+    }
+    
     func testGetInvoicesExample() throws {
         let reqeustExpectation = expectation(description: "Tests")
         DispatchQueue.global().async {
             do {
-                let result = try self.service.getUserInvoices(accessToken: self.accessToken).wait()
+                let result = try self.service.getUserInvoices(accessToken: "").wait()
                 debugPrint(result)
             } catch let error {
                 debugPrint(error)

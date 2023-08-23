@@ -100,6 +100,7 @@ public struct InvoiceResponse: Codable {
     public let expireTime: Int?
     public let timestamp: Int?
     public let type: String?
+    public let ispaid: Bool?
     
     public struct RHash: Codable {
         public let type: String
