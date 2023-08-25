@@ -13,7 +13,7 @@ public struct CreateAccountResponse: Codable {
     public let password: String
     
     public var secret: String {
-        return lndhub://\(login):\(password)
+        return "lndhub://\(login):\(password)"
     }
 }
 
@@ -141,7 +141,7 @@ public struct LNUrlCallbackInvoiceResponse: Codable {
     public let pr: String
 }
 
-public struct PayInvoiceResoponse: Codable {
+public struct PayInvoiceResponse: Codable {
     public let destination: String
     public let paymentHash: String
     public let numSatoshis: String
