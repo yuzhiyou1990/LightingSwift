@@ -63,10 +63,10 @@ public struct TransactionResponse: Codable {
             if let _timestamp = timestamp {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let timeString = try? decoder.decode(String.self, from: JSONEncoder().encode(timestamp)) {
+                if let timeString = try? decoder.decode(String.self, from: JSONEncoder().encode(_timestamp)) {
                     return Int64(timeString) ?? 0
                 } else {
-                    if let timeInt64 = try? decoder.decode(Int64.self, from: JSONEncoder().encode(timestamp)) {
+                    if let timeInt64 = try? decoder.decode(Int64.self, from: JSONEncoder().encode(_timestamp)) {
                         return timeInt64
                     }
                 }
@@ -142,11 +142,22 @@ public struct LNUrlCallbackInvoiceResponse: Codable {
 }
 
 public struct PayInvoiceResponse: Codable {
-    public let destination: String
-    public let paymentHash: String
-    public let numSatoshis: String
-    public let timestamp: String
-    public let description: String
+    public let destination: String?
+    public let paymentHash: String?
+    public let numSatoshis: String?
+    public let timestamp: String?
+    public let description: String?
+    public let paymentError: String?
+    public let payReq: String?
+    public let paymentRoute: PaymentRoute?
+    
+    public struct PaymentRoute: Codable {
+        public let totalTimeLock: Int
+        public let totalFees: Int
+        public let totalAmt: String
+        public let totalFeesMsat: String
+        public let totalAmtMsat: String
+    }
 }
 
 public struct GetFeeResponse: Codable {
