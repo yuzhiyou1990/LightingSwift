@@ -143,7 +143,7 @@ public struct LNUrlCallbackInvoiceResponse: Codable {
 
 public struct PayInvoiceResponse: Codable {
     public let destination: String?
-    public let paymentHash: String?
+    public let paymentHash: AnyCodable?
     public let numSatoshis: String?
     public let timestamp: String?
     public let description: String?
