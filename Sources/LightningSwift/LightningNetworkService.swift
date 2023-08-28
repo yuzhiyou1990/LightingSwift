@@ -236,8 +236,11 @@ extension LightningNetworkService {
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            if let resp = try? decoder.decode(T.self, from: data) {
-                return resp
+            do {
+                let resp = try decoder.decode(T.self, from: data)
+            } catch let error {
+                print(error.localizedDescription)
+                throw error
             }
             if let errorResult = try? decoder.decode(NetworkError.self, from: data) {
                 if errorResult.message == "bad auth" {
