@@ -176,15 +176,15 @@ extension LightningNetworkService {
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            if let resp = try? decoder.decode(T.self, from: data) {
-                return resp
-            }
             if let errorResult = try? decoder.decode(NetworkError.self, from: data) {
                 if errorResult.message == "bad auth" {
                     throw LightningServiceError.authError
                 } else {
                     throw LightningServiceError.resoultError(errorResult.code, errorResult.message)
                 }
+            }
+            if let resp = try? decoder.decode(T.self, from: data) {
+                return resp
             }
             throw LightningServiceError.providerError("Parameter error or received wrong message")
         }
@@ -236,15 +236,15 @@ extension LightningNetworkService {
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            if let resp = try? decoder.decode(T.self, from: data) {
-                return resp
-            }
             if let errorResult = try? decoder.decode(NetworkError.self, from: data) {
                 if errorResult.message == "bad auth" {
                     throw LightningServiceError.authError
                 } else {
                     throw LightningServiceError.resoultError(errorResult.code, errorResult.message)
                 }
+            }
+            if let resp = try? decoder.decode(T.self, from: data) {
+                return resp
             }
             throw LightningServiceError.providerError("Parameter error or received wrong message")
         }
